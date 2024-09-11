@@ -42,6 +42,48 @@ public partial class GameState {
     public Map.State GetCurrentMapState() {
         return GetMapState(state.CurrentMapName);
     }
+    //
+    public void SetHeldItem(PlaceableObject.State item)
+    {
+        state.ItemInHands = item;
+    }
+    public PlaceableObject.State GetHeldItem() {
+        return state.ItemInHands;
+    }
+    public const string BACKPACK_ID = "backpack";
+    public bool CycleInventory(bool backwards) {
+        if (state.Containers.TryGetValue(BACKPACK_ID, out var c)) {
+            if (c.Items.Count > 0) {
+                if (backwards) {
+                    var newHeldItem = c.Items[0];
+                    c.Items.RemoveAt(0);
+                    if (state.ItemInHands != null) c.Items.Add(state.ItemInHands);
+                    state.ItemInHands = newHeldItem;
+                } else {
+                    var lastIdx = c.Items.Count-1;
+                    var newHeldItem = c.Items[lastIdx];
+                    c.Items.RemoveAt(lastIdx);
+                    if (state.ItemInHands != null) c.Items.Insert(0, state.ItemInHands);
+                    state.ItemInHands = newHeldItem;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    public bool PutAwayHeldItem() {
+        if (state.ItemInHands == null) return false;
+        if (state.Containers.TryGetValue(BACKPACK_ID, out var c)) {
+            // If space available
+            if (c.MaxItems > c.Items.Count) {
+                c.Items.Insert(0, state.ItemInHands);
+                state.ItemInHands = null;
+                return true;
+            }
+        }
+        return false;
+    }
+    //
     public int GetContainerMax(string containerId) {
         if (state.Containers.TryGetValue(containerId, out var container)) {
             return container.MaxItems;
@@ -145,13 +187,4 @@ public partial class GameState {
         saveFile.Close();
         GD.Print("Loading finished!");
     }
-
-    public void SetHeldItem(PlaceableObject.State item)
-    {
-        state.ItemInHands = item;
-    }
-    public PlaceableObject.State GetHeldItem() {
-        return state.ItemInHands;
-    }
-    //
 }

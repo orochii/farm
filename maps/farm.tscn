@@ -50,3 +50,15 @@ y_sort_enabled = true
 [node name="LumberBarrier" parent="Objects" instance=ExtResource("7_u0amo")]
 position = Vector2(232, 120)
 MapObjectData = ExtResource("9_70cyx")
+
+[node name="LumberBarrier2" parent="Objects" instance=ExtResource("7_u0amo")]
+position = Vector2(248, 120)
+MapObjectData = ExtResource("9_70cyx")
+
+[node name="LumberBarrier3" parent="Objects" instance=ExtResource("7_u0amo")]
+position = Vector2(312, 88)
+MapObjectData = ExtResource("9_70cyx")
+
+[node name="LumberBarrier4" parent="Objects" instance=ExtResource("7_u0amo")]
+position = Vector2(344, 104)
+MapObjectData = ExtResource("9_70cyx")

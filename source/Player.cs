@@ -20,15 +20,7 @@ public partial class Player : CharacterBody2D
 	{
 		InteractPivot.RotationDegrees = Sprite.Direction;
 		// Spawn held item (if any).
-		var itm = Main.State.GetHeldItem();
-		if (itm != null) {
-			GD.Print("HeldID:",itm.ID);
-			var data = MapObject.GetData(itm.ID);
-			GD.Print("Data:",data);
-			var obj = data.Create(itm);
-			GD.Print("Inst:",obj);
-			PickUp(obj);
-		}
+		SpawnHeldItem();
 	}
 	public override void _Process(double delta)
 	{
@@ -56,6 +48,15 @@ public partial class Player : CharacterBody2D
 		var tid = Main.State.Map.GetTerrainIdAt(x, y);
 		GD.Print("Terrain @",x,",",y,":", tid);*/
 		//
+		if (Input.IsActionJustPressed("cancel")) {
+			PutAwayHeldItem();
+		}
+		if (Input.IsActionJustPressed("cycle_item_l")) {
+			CycleInventory(true);
+		}
+		if (Input.IsActionJustPressed("cycle_item_r")) {
+			CycleInventory(false);
+		}
 		if (Input.IsActionJustPressed("pause")) {
 			Main.State.Save();
 		}
@@ -85,6 +86,26 @@ public partial class Player : CharacterBody2D
 		heldItem = null;
 		Main.State.SetHeldItem(null);
 	}
+	public void SpawnHeldItem() {
+		if (heldItem != null) heldItem.QueueFree();
+		heldItem = null;
+		var itm = Main.State.GetHeldItem();
+		if (itm != null) {
+			var data = MapObject.GetData(itm.ID);
+			var obj = data.Create(itm);
+			PickUp(obj);
+		}
+	}
+	public void CycleInventory(bool backwards) {
+		if (Main.State.CycleInventory(backwards)) {
+			SpawnHeldItem();
+		}
+	}
+	public void PutAwayHeldItem() {
+		if (Main.State.PutAwayHeldItem()) {
+			SpawnHeldItem();
+		}
+	}
 	const int GRID_SIZE = 16;
 	private Vector2 AlignToGrid(Vector2 inV) {
 		var x = ((int)Math.Round((inV.X-GRID_SIZE/2) / GRID_SIZE)) * GRID_SIZE;
@@ -108,7 +129,7 @@ public partial class Player : CharacterBody2D
 	private List<Interactable> _nearbyInteractables = new List<Interactable>();
 	private void DoInteract() {
 		var interactable = GetNearestInteractable();
-		if(interactable != null) interactable.Interact(this);
+		if(interactable != null && !(interactable is PlaceableObject && heldItem!=null)) interactable.Interact(this);
 		else Place();
 	}
 	private Interactable GetNearestInteractable() {

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbov2y20a5vri"]
+
+[ext_resource type="Script" path="res://source/objects/PlaceableObject.cs" id="1_eomfp"]
+[ext_resource type="Texture2D" uid="uid://b2cxo06qn3oqv" path="res://graphics/objects/lumber_barrier.png" id="1_i4qak"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6s3wb"]
+radius = 7.0
+
+[node name="LumberBarrier" type="StaticBody2D"]
+script = ExtResource("1_eomfp")
+
+[node name="LumberBarrier" type="Sprite2D" parent="."]
+texture = ExtResource("1_i4qak")
+offset = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6s3wb")

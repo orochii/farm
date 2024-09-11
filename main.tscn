@@ -1,0 +1,341 @@
+[gd_scene load_steps=16 format=3 uid="uid://bgivqkikglv0k"]
+
+[ext_resource type="Script" path="res://source/Main.cs" id="1_udoaw"]
+[ext_resource type="Texture2D" uid="uid://bjmyaex3aitc6" path="res://graphics/hud_elements.png" id="2_s6c61"]
+[ext_resource type="Script" path="res://source/ui/Loader.cs" id="3_3tp4c"]
+[ext_resource type="Texture2D" uid="uid://c1mqevn581h2s" path="res://graphics/icons/lumber.png" id="3_y8xle"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bfue7"]
+atlas = ExtResource("2_s6c61")
+region = Rect2(0, 8, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jrwn"]
+atlas = ExtResource("2_s6c61")
+region = Rect2(56, 8, 8, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_huj67"]
+atlas = ExtResource("2_s6c61")
+region = Rect2(40, 8, 8, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnh7s"]
+atlas = ExtResource("2_s6c61")
+region = Rect2(48, 8, 8, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4q8v7"]
+atlas = ExtResource("2_s6c61")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iesy0"]
+atlas = ExtResource("2_s6c61")
+region = Rect2(0, 0, 40, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_subgp"]
+atlas = ExtResource("2_s6c61")
+region = Rect2(40, 0, 8, 8)
+
+[sub_resource type="Animation" id="Animation_yysh5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Loader/ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ny3r6"]
+resource_name = "hide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Loader/ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_bqavw"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Loader/ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oy3ai"]
+_data = {
+"RESET": SubResource("Animation_yysh5"),
+"hide": SubResource("Animation_ny3r6"),
+"show": SubResource("Animation_bqavw")
+}
+
+[node name="Main" type="Node2D" node_paths=PackedStringArray("WorldRoot", "Loader")]
+texture_filter = 1
+script = ExtResource("1_udoaw")
+WorldRoot = NodePath("World")
+Loader = NodePath("CanvasLayer/Loader")
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Gameplay" type="Control" parent="CanvasLayer"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Gameplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Control" type="Control" parent="CanvasLayer/Gameplay/MarginContainer"]
+layout_mode = 2
+
+[node name="TimeWidget" type="HBoxContainer" parent="CanvasLayer/Gameplay/MarginContainer/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TimeDate" type="TextureRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/TimeWidget"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_bfue7")
+
+[node name="Control" type="Control" parent="CanvasLayer/Gameplay/MarginContainer/Control/TimeWidget/TimeDate"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Seconds" type="Sprite2D" parent="CanvasLayer/Gameplay/MarginContainer/Control/TimeWidget/TimeDate/Control"]
+rotation = 2.20086
+texture = SubResource("AtlasTexture_1jrwn")
+offset = Vector2(0, -8)
+
+[node name="Minutes" type="Sprite2D" parent="CanvasLayer/Gameplay/MarginContainer/Control/TimeWidget/TimeDate/Control"]
+rotation = 0.137881
+texture = SubResource("AtlasTexture_huj67")
+offset = Vector2(0, -8)
+
+[node name="Hours" type="Sprite2D" parent="CanvasLayer/Gameplay/MarginContainer/Control/TimeWidget/TimeDate/Control"]
+rotation = 0.993092
+texture = SubResource("AtlasTexture_hnh7s")
+offset = Vector2(0, -8)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Gameplay/MarginContainer/Control/TimeWidget"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Time" type="Label" parent="CanvasLayer/Gameplay/MarginContainer/Control/TimeWidget/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "08:00"
+
+[node name="Date" type="Label" parent="CanvasLayer/Gameplay/MarginContainer/Control/TimeWidget/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 10
+text = "Spring 28th"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Gameplay/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="Hands" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = SubResource("AtlasTexture_4q8v7")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 10
+
+[node name="Control" type="Control" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer/Hands"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer/Hands/Control"]
+texture = ExtResource("3_y8xle")
+
+[node name="Backpack1" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = SubResource("AtlasTexture_4q8v7")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 10
+
+[node name="Control" type="Control" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer/Backpack1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer/Backpack1/Control"]
+texture = ExtResource("3_y8xle")
+
+[node name="Backpack2" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = SubResource("AtlasTexture_4q8v7")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 10
+
+[node name="Control" type="Control" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer/Backpack2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer/Backpack2/Control"]
+texture = ExtResource("3_y8xle")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Stamina" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_iesy0")
+patch_margin_left = 24
+patch_margin_right = 8
+
+[node name="Control" type="Control" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer2/Stamina"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_right = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StaminaBar" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer2/Stamina/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_subgp")
+patch_margin_left = 1
+patch_margin_right = 1
+
+[node name="Loader" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("Animation")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_3tp4c")
+Animation = NodePath("AnimationPlayer")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Loader"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Loader/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Label" type="Label" parent="CanvasLayer/Loader/ColorRect/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Loading..."
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Loader"]
+root_node = NodePath("../../..")
+libraries = {
+"": SubResource("AnimationLibrary_oy3ai")
+}

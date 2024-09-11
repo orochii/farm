@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="MapObject" load_steps=3 format=3 uid="uid://p8suv3wpme3p"]
+
+[ext_resource type="PackedScene" uid="uid://bbov2y20a5vri" path="res://objects/lumber_barrier.tscn" id="1_07537"]
+[ext_resource type="Script" path="res://source/data/MapObject.cs" id="2_4ku7a"]
+
+[resource]
+script = ExtResource("2_4ku7a")
+CanPickup = false
+Template = ExtResource("1_07537")

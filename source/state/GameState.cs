@@ -42,6 +42,25 @@ public partial class GameState {
     public Map.State GetCurrentMapState() {
         return GetMapState(state.CurrentMapName);
     }
+    public int GetContainerMax(string containerId) {
+        if (state.Containers.TryGetValue(containerId, out var container)) {
+            return container.MaxItems;
+        }
+        return 0;
+    }
+    public int GetContainerItemCount(string containerId) {
+        if (state.Containers.TryGetValue(containerId, out var container)) {
+            return container.Items.Count;
+        }
+        return 0;
+    }
+    public PlaceableObject.State GetContainerItem(string containerId, int idx) {
+        if (state.Containers.TryGetValue(containerId, out var container)) {
+            if (idx < 0 || idx >= container.Items.Count) return null;
+            return container.Items[idx];
+        }
+        return null;
+    }
     public void AddContainer(string containerId, int maxItems) {
         if (!state.Containers.TryGetValue(containerId, out var v)) {
             var container = new Container();

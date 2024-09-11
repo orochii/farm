@@ -1,9 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://bgivqkikglv0k"]
+[gd_scene load_steps=20 format=3 uid="uid://bgivqkikglv0k"]
 
 [ext_resource type="Script" path="res://source/Main.cs" id="1_udoaw"]
 [ext_resource type="Texture2D" uid="uid://bjmyaex3aitc6" path="res://graphics/hud_elements.png" id="2_s6c61"]
 [ext_resource type="Script" path="res://source/ui/Loader.cs" id="3_3tp4c"]
+[ext_resource type="Script" path="res://source/ui/Status.cs" id="3_rdnwl"]
+[ext_resource type="Script" path="res://source/ui/InvSlot.cs" id="3_subm7"]
 [ext_resource type="Texture2D" uid="uid://c1mqevn581h2s" path="res://graphics/icons/lumber.png" id="3_y8xle"]
+[ext_resource type="Script" path="res://source/ui/Inventory.cs" id="3_yxidv"]
+[ext_resource type="PackedScene" uid="uid://3js7cwg2ib5r" path="res://objects/ui/invslot.tscn" id="4_73cjg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bfue7"]
 atlas = ExtResource("2_s6c61")
@@ -176,7 +180,7 @@ theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 10
 text = "Spring 28th"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Gameplay/MarginContainer/Control"]
+[node name="Status" type="VBoxContainer" parent="CanvasLayer/Gameplay/MarginContainer/Control" node_paths=PackedStringArray("HandsSlot")]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -184,11 +188,17 @@ anchor_bottom = 1.0
 offset_top = -40.0
 offset_right = 40.0
 grow_vertical = 0
+script = ExtResource("3_rdnwl")
+HandsSlot = NodePath("Inventory/Hands")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer"]
+[node name="Inventory" type="HBoxContainer" parent="CanvasLayer/Gameplay/MarginContainer/Control/Status" node_paths=PackedStringArray("SlotContainer")]
 layout_mode = 2
+script = ExtResource("3_yxidv")
+SlotTemplate = ExtResource("4_73cjg")
+SlotContainer = NodePath(".")
+ContainerId = "backpack"
 
-[node name="Hands" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer"]
+[node name="Hands" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/Status/Inventory" node_paths=PackedStringArray("sprite")]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -198,8 +208,10 @@ patch_margin_left = 3
 patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 10
+script = ExtResource("3_subm7")
+sprite = NodePath("Control/Sprite2D")
 
-[node name="Control" type="Control" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer/Hands"]
+[node name="Control" type="Control" parent="CanvasLayer/Gameplay/MarginContainer/Control/Status/Inventory/Hands"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -209,63 +221,15 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer/Hands/Control"]
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Gameplay/MarginContainer/Control/Status/Inventory/Hands/Control"]
 texture = ExtResource("3_y8xle")
 
-[node name="Backpack1" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-texture = SubResource("AtlasTexture_4q8v7")
-patch_margin_left = 3
-patch_margin_top = 3
-patch_margin_right = 3
-patch_margin_bottom = 10
-
-[node name="Control" type="Control" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer/Backpack1"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer/Backpack1/Control"]
-texture = ExtResource("3_y8xle")
-
-[node name="Backpack2" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-texture = SubResource("AtlasTexture_4q8v7")
-patch_margin_left = 3
-patch_margin_top = 3
-patch_margin_right = 3
-patch_margin_bottom = 10
-
-[node name="Control" type="Control" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer/Backpack2"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer/Backpack2/Control"]
-texture = ExtResource("3_y8xle")
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer"]
+[node name="CharStats" type="HBoxContainer" parent="CanvasLayer/Gameplay/MarginContainer/Control/Status"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Stamina" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer2"]
+[node name="Stamina" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/Status/CharStats"]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -274,7 +238,7 @@ texture = SubResource("AtlasTexture_iesy0")
 patch_margin_left = 24
 patch_margin_right = 8
 
-[node name="Control" type="Control" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer2/Stamina"]
+[node name="Control" type="Control" parent="CanvasLayer/Gameplay/MarginContainer/Control/Status/CharStats/Stamina"]
 layout_mode = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -283,7 +247,7 @@ offset_right = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="StaminaBar" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/VBoxContainer/HBoxContainer2/Stamina/Control"]
+[node name="StaminaBar" type="NinePatchRect" parent="CanvasLayer/Gameplay/MarginContainer/Control/Status/CharStats/Stamina/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

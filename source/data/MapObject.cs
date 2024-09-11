@@ -4,9 +4,9 @@ using Godot;
 public partial class MapObject : Resource {
     const string LOCATION = "res://data/objects/";
     const string EXTENSION = ".tres";
-    [Export] Texture2D Icon;
+    [Export] public Texture2D Icon;
     [Export] public bool CanPickup;
-    [Export] PackedScene Template;
+    [Export] public PackedScene Template;
     public PlaceableObject Create(PlaceableObject.State state) {
         PlaceableObject obj = Template.Instantiate<PlaceableObject>();
         if (obj != null) {
@@ -20,6 +20,7 @@ public partial class MapObject : Resource {
         return ResourcePath.Substring(LOCATION.Length, len);
     }
     public static MapObject GetData(string id) {
+        if (id == "") return null;
         return ResourceLoader.Load<MapObject>(LOCATION + id + EXTENSION);
     }
 }

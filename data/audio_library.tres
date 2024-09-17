@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="AudioLibrary" load_steps=7 format=3 uid="uid://b8jkkcmj4dy1f"]
+
+[ext_resource type="Script" path="res://source/audio/AudioEntry.cs" id="1_dyd3g"]
+[ext_resource type="Script" path="res://source/audio/AudioLibrary.cs" id="1_x8bsn"]
+
+[sub_resource type="Resource" id="Resource_drmms"]
+script = ExtResource("1_dyd3g")
+id = &"cursor"
+volume = 0.0
+pitch = 1.0
+
+[sub_resource type="Resource" id="Resource_tre2h"]
+script = ExtResource("1_dyd3g")
+id = &"decision"
+volume = 0.0
+pitch = 1.0
+
+[sub_resource type="Resource" id="Resource_6ot5i"]
+script = ExtResource("1_dyd3g")
+id = &"cancel"
+volume = 0.0
+pitch = 1.0
+
+[sub_resource type="Resource" id="Resource_qdx3u"]
+script = ExtResource("1_dyd3g")
+id = &"buzzer"
+volume = 0.0
+pitch = 1.0
+
+[resource]
+script = ExtResource("1_x8bsn")
+entries = Array[Object]([SubResource("Resource_drmms"), SubResource("Resource_tre2h"), SubResource("Resource_6ot5i"), SubResource("Resource_qdx3u")])

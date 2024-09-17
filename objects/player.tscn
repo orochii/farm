@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://criuak0ennp6i"]
 
 [ext_resource type="Script" path="res://source/Player.cs" id="1_8k5n1"]
-[ext_resource type="Texture2D" uid="uid://c7vfl6trrleai" path="res://graphics/chars/template2.png" id="2_yuxke"]
+[ext_resource type="Texture2D" uid="uid://cra704p158bcr" path="res://graphics/chars/sharon.png" id="2_f2gwm"]
 [ext_resource type="Script" path="res://source/CharSprite.cs" id="3_0t4i2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ki2fw"]
@@ -24,7 +24,6 @@ InteractPivot = NodePath("CollisionShape2D/InteractPivot")
 PlacePivot = NodePath("CollisionShape2D/InteractPivot/PlacePivot")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_ki2fw")
 
 [node name="InteractPivot" type="Node2D" parent="CollisionShape2D"]
@@ -40,16 +39,17 @@ shape = SubResource("RectangleShape2D_swn6b")
 position = Vector2(16, 0)
 
 [node name="CharSprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_yuxke")
-offset = Vector2(0, -20)
+texture = ExtResource("2_f2gwm")
+offset = Vector2(0, -17)
 region_enabled = true
-region_rect = Rect2(0, 0, 32, 48)
+region_rect = Rect2(0, 48, 32, 48)
 script = ExtResource("3_0t4i2")
 Animating = true
 FrameRate = 8.0
+Direction = 180.0
 
 [node name="HoldSlot" type="Node2D" parent="."]
-position = Vector2(0, -40)
+position = Vector2(0, -37)
 
 [connection signal="body_entered" from="CollisionShape2D/InteractPivot/Area2D" to="." method="OnBodyEntered"]
 [connection signal="body_exited" from="CollisionShape2D/InteractPivot/Area2D" to="." method="OnBodyExited"]

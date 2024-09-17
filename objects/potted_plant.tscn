@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bab4cwomf7tdc"]
+
+[ext_resource type="Script" path="res://source/objects/PlaceableObject.cs" id="1_6hsvt"]
+[ext_resource type="Texture2D" uid="uid://1vcwui26hj8r" path="res://graphics/icons/pottedPlant.png" id="2_f3u82"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6s3wb"]
+radius = 7.0
+
+[node name="PottedPlant" type="StaticBody2D"]
+texture_filter = 1
+script = ExtResource("1_6hsvt")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_f3u82")
+offset = Vector2(0, -2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6s3wb")

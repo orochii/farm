@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MapObject" load_steps=4 format=3 uid="uid://vspau0c8j3aa"]
+
+[ext_resource type="Texture2D" uid="uid://1vcwui26hj8r" path="res://graphics/icons/pottedPlant.png" id="1_7gqss"]
+[ext_resource type="PackedScene" uid="uid://bab4cwomf7tdc" path="res://objects/potted_plant.tscn" id="2_0b27b"]
+[ext_resource type="Script" path="res://source/data/MapObject.cs" id="3_66xrv"]
+
+[resource]
+script = ExtResource("3_66xrv")
+Icon = ExtResource("1_7gqss")
+CanPickup = false
+Template = ExtResource("2_0b27b")

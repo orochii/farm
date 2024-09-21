@@ -21,6 +21,6 @@ public partial class MapObject : Resource {
     }
     public static MapObject GetData(string id) {
         if (id == "") return null;
-        return ResourceLoader.Load<MapObject>(LOCATION + id + EXTENSION);
+        return OZResourceLoader.Load<MapObject>(LOCATION + id + EXTENSION);
     }
 }

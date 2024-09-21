@@ -12,6 +12,10 @@ public partial class Map : Node2D
 	[Export] public bool AllowPlacingObjects;
 	[Export] Node2D ObjectParent;
 	[Export] Node2D TileGridGraphic;
+	public void PlaceNPC(NPC npcInstance, Vector2 position) {
+		ObjectParent.AddChild(npcInstance);
+		npcInstance.GlobalPosition = position;
+	}
 	public void RepositionTileGrid(Vector2 p) {
 		if (TileGridGraphic != null) TileGridGraphic.GlobalPosition = p;
 	}

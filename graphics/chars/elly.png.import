@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlbla164ka0k"
-path="res://.godot/imported/char_Cherry.png-3ee7c39bbbb93a700e882279966eef73.ctex"
+uid="uid://4g3fxi3ogp5m"
+path="res://.godot/imported/elly.png-091718a2dc48388661a44b2f17007037.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/chars/tests/char_Cherry.png"
-dest_files=["res://.godot/imported/char_Cherry.png-3ee7c39bbbb93a700e882279966eef73.ctex"]
+source_file="res://graphics/chars/elly.png"
+dest_files=["res://.godot/imported/elly.png-091718a2dc48388661a44b2f17007037.ctex"]
 
 [params]
 

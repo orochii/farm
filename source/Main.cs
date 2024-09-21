@@ -5,13 +5,14 @@ public partial class Main : Node2D
 {
 	const int SCALE = 3;
 	public static Main Instance;
+	public static Player Player;
 	public static GameState State {
 		get {
 			if (Instance == null) return null;
 			return Instance.state;
 		}
 	}
-	[Export] public Node2D WorldRoot;
+	[Export] public WorldStateManager WorldRoot;
 	[Export] public Loader Loader;
 	GameState state;
 	Window gameWindow;

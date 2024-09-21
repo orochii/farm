@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MapGraph" load_steps=4 format=3 uid="uid://b0nbw4trv14xw"]
+
+[ext_resource type="Script" path="res://source/data/MapConnection.cs" id="1_ijiy4"]
+[ext_resource type="Script" path="res://source/data/MapGraph.cs" id="1_ueufg"]
+
+[sub_resource type="Resource" id="Resource_c6rv7"]
+script = ExtResource("1_ijiy4")
+LeftMapID = "farm"
+LeftPosition = Vector2(128, 152)
+RightMapID = ""
+RightPosition = Vector2(0, 0)
+Cost = 0
+
+[resource]
+script = ExtResource("1_ueufg")
+Connections = Array[Object]([SubResource("Resource_c6rv7")])

@@ -6,6 +6,12 @@ using Godot;
 using Newtonsoft.Json;
 
 public partial class GameState {
+    public delegate void OnLoadFinished();
+    public delegate void OnDayPassed();
+    public delegate void OnMapLoaded();
+    public event OnLoadFinished onLoadFinished;
+    public event OnDayPassed onDayPassed;
+    public event OnMapLoaded onMapLoaded;
     public class Container {
         public List<PlaceableObject.State> Items;
         public int MaxItems = 8;
@@ -22,7 +28,56 @@ public partial class GameState {
         public PlaceableObject.State ItemInHands;
         public Dictionary<string,Container> Containers = new Dictionary<string, Container>();
         public Dictionary<string,Map.State> MapStates = new Dictionary<string, Map.State>();
+        public Dictionary<string,NPCState> NPCState = new Dictionary<string,NPCState>();
     }
+    #region NPC Management
+    public NPCState GetOrAddNPC(NPCData n)
+    {
+        var id = n.GetId();
+        if (!state.NPCState.TryGetValue(id, out var npc)) {
+            npc = new NPCState();
+            npc.Init(n);
+            state.NPCState.Add(id, npc);
+        }
+        return npc;
+    }
+    #endregion
+    #region Date Time Functions
+    public int GetHour() {
+        return state.Hour;
+    }
+    public int GetMinute() {
+        return state.Minute;
+    }
+    public int GetSecond() {
+        return (int)state.Second;
+    }
+    public int GetDaysElapsed() {
+        return state.DaysElapsed;
+    }
+    public int GetWeekday() {
+        return state.DaysElapsed % 7;
+    }
+    public void AdvanceTime(float delta) {
+        state.Second += delta;
+        if (state.Second >= 60) {
+            int wholeMinutes = (int)(state.Second / 60);
+            state.Second -= wholeMinutes * 60;
+            state.Minute += wholeMinutes;
+            if (state.Minute >= 60) {
+                int wholeHours = (state.Minute / 60);
+                state.Minute -= wholeHours * 60;
+                state.Hour += wholeHours;
+                if (state.Hour >= 24) {
+                    int wholeDays = (state.Hour / 24);
+                    state.Hour -= wholeDays * 24;
+                    state.DaysElapsed += wholeDays;
+                    if (onDayPassed != null) onDayPassed.Invoke();
+                }
+            }
+        }
+    }
+    #endregion
     private State state;
     private Map currentMap;
     public Map Map => currentMap;
@@ -123,6 +178,9 @@ public partial class GameState {
         state.CurrentMapName = "";
         return mn;
     }
+    public string GetCurrentMapName() {
+        return state.CurrentMapName;
+    }
     public async void ChangeMap(string newMapName) {
         if (newMapName == state.CurrentMapName) return;
         // Hide screen.
@@ -144,6 +202,7 @@ public partial class GameState {
             state.CurrentMapName = newMapName;
             currentMap = newMapScene.Instantiate<Map>();
             Main.Instance.WorldRoot.AddChild(currentMap);
+            if (onMapLoaded != null) onMapLoaded.Invoke();
         }
         // Wait for a bit.
         var t = Main.Instance.GetTree().CreateTimer(0.1);
@@ -186,5 +245,7 @@ public partial class GameState {
         state = JsonConvert.DeserializeObject<State>(json);
         saveFile.Close();
         GD.Print("Loading finished!");
+        if (onLoadFinished != null) onLoadFinished.Invoke();
+        //
     }
 }

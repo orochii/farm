@@ -1,13 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://cysj4xly0wc07"]
+[gd_scene load_steps=5 format=3 uid="uid://cysj4xly0wc07"]
 
 [ext_resource type="Texture2D" uid="uid://cctaos8760h38" path="res://graphics/chars/blue_dog.png" id="1_pbcyq"]
+[ext_resource type="Script" path="res://source/characters/Follower.cs" id="1_t4ee4"]
 [ext_resource type="Script" path="res://source/CharSprite.cs" id="2_41fox"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l2pay"]
 radius = 8.0
 
-[node name="Dog" type="CharacterBody2D"]
+[node name="Dog" type="CharacterBody2D" node_paths=PackedStringArray("Agent", "Sprite")]
 position = Vector2(240, 152)
+motion_mode = 1
+script = ExtResource("1_t4ee4")
+Agent = NodePath("NavigationAgent2D")
+Sprite = NodePath("CharSprite")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_l2pay")
@@ -16,8 +21,11 @@ shape = SubResource("CircleShape2D_l2pay")
 texture = ExtResource("1_pbcyq")
 offset = Vector2(0, -18)
 region_enabled = true
-region_rect = Rect2(0, 48, 32, 48)
+region_rect = Rect2(0, 0, 32, 48)
 script = ExtResource("2_41fox")
 Animating = true
 FrameRate = 8.0
-Direction = 180.0
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 48.0
+avoidance_enabled = true

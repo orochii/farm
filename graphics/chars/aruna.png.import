@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdef2nvde6lsf"
-path="res://.godot/imported/template.png-af1cc10f30c11a8ec7a5924c3b8bcaa2.ctex"
+uid="uid://datjq08eldcrk"
+path="res://.godot/imported/aruna.png-c0d8fd325cbc1cc520a72375c5921b07.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/chars/tests/template.png"
-dest_files=["res://.godot/imported/template.png-af1cc10f30c11a8ec7a5924c3b8bcaa2.ctex"]
+source_file="res://graphics/chars/aruna.png"
+dest_files=["res://.godot/imported/aruna.png-c0d8fd325cbc1cc520a72375c5921b07.ctex"]
 
 [params]
 

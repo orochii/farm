@@ -1,17 +1,10 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
 
-public partial class Player : CharacterBody2D
+public partial class Player : BaseCharacter
 {
-	[ExportGroup("Statistics")]
-	[Export] float WalkSpeed = 128f;
-	[Export] float WalkAcceleration = 1200f;
-	[Export] float RunSpeed = 200f;
-	[Export] float RunAcceleration = 400f;
-	[ExportGroup("Components")]
-	[Export] CharSprite Sprite;
+	
 	[Export] Node2D HoldSlot;
 	[Export] Node2D InteractPivot;
 	[Export] Node2D PlacePivot;
@@ -19,35 +12,25 @@ public partial class Player : CharacterBody2D
 	public override void _Ready()
 	{
 		InteractPivot.RotationDegrees = Sprite.Direction;
-		// Spawn held item (if any).
 		SpawnHeldItem();
+		Main.Player = this;
 	}
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		var input = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-		var interact = Input.IsActionJustPressed("interact");
-		var moveDir = input.Normalized();
-		var velocity = Velocity;
-		var move = moveDir * GetMoveSpeed();
-		Velocity = velocity.MoveToward(move, GetMoveAcceleration() * (float)delta);
-		if (input != Vector2.Zero) {
-			var angle = Mathf.RadToDeg(Velocity.Angle());
-			Sprite.Animating = true;
-			Sprite.Direction = angle;
-			InteractPivot.RotationDegrees = angle;
-		} else {
-			Sprite.Animating = false;
-			Sprite.FrameIdx = 0;
-		}
-		if (interact) DoInteract();
-		MoveAndSlide();
-		UpdateTileGrid();
+		ProcessMove(delta, input);
 		// TEST
 		/*var x = GlobalPosition.X;
 		var y = GlobalPosition.Y;
 		var tid = Main.State.Map.GetTerrainIdAt(x, y);
 		GD.Print("Terrain @",x,",",y,":", tid);*/
 		//
+		ProcessInput();
+	}
+    private void ProcessInput() {
+		var interact = Input.IsActionJustPressed("interact");
+		if (interact) DoInteract();
+		UpdateTileGrid();
 		if (Input.IsActionJustPressed("cancel")) {
 			PutAwayHeldItem();
 		}
@@ -61,8 +44,12 @@ public partial class Player : CharacterBody2D
 			Main.State.Save();
 		}
 	}
-	//
-	private void UpdateTileGrid() {
+    protected override void ProcessOnRotate(float angle)
+    {
+        InteractPivot.RotationDegrees = angle;
+    }
+    //
+    private void UpdateTileGrid() {
 		Main.State.Map.RepositionTileGrid(AlignToGrid(PlacePivot.GlobalPosition));
 	}
 	#region Pickup item
@@ -112,17 +99,6 @@ public partial class Player : CharacterBody2D
 		var y = ((int)Math.Round((inV.Y-GRID_SIZE/2) / GRID_SIZE)) * GRID_SIZE;
 		Vector2 outV = new Vector2(x+GRID_SIZE/2,y+GRID_SIZE/2);
 		return outV;
-	}
-	#endregion
-	#region Movement Helpers
-	private bool IsRunning() {
-		return Input.IsActionPressed("run");
-	}
-	private float GetMoveSpeed() {
-		return IsRunning() ? RunSpeed : WalkSpeed;
-	}
-	private float GetMoveAcceleration() {
-		return IsRunning() ? RunAcceleration : WalkAcceleration;
 	}
 	#endregion
 	#region Interaction

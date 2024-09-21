@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Database" load_steps=3 format=3 uid="uid://dmnag4un48dfx"]
+
+[ext_resource type="Script" path="res://source/data/Database.cs" id="1_5xvwb"]
+[ext_resource type="Resource" uid="uid://0wu5fjyat056" path="res://data/npc/ciel.tres" id="1_6a31q"]
+
+[resource]
+script = ExtResource("1_5xvwb")
+NPCs = Array[Object]([ExtResource("1_6a31q")])
